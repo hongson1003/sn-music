@@ -36,7 +36,20 @@ export default function App() {
           tabBarInactiveTintColor: "gray",
         })}
       >
-        <Tab.Screen name="Home" component={HomeStack} />
+        <Tab.Screen
+          name="Home"
+          component={HomeStack}
+          options={{
+            headerShown: false,
+            tabBarActiveTintColor: "tomato",
+            tabBarInactiveTintColor: "gray",
+            tabBarStyle: { backgroundColor: "#000" },
+            headerStyle: { backgroundColor: "#000" },
+            headerTintColor: "#fff",
+            tabBarActiveTintColor: "#fff",
+            tabBarInactiveTintColor: "gray",
+          }}
+        />
         <Tab.Screen name="Feed" component={FeedStack} />
         {/* <Tab.Screen name="Search" component={SearchScreen} />
         <Tab.Screen name="Library" component={LibraryScreen} /> */}
@@ -49,6 +62,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#000",
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
