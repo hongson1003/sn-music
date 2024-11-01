@@ -1,9 +1,12 @@
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 
-const PlayList = () => {
+const PlayList = ({ width = 150, height = 150 }) => {
+  const layerOffset = Math.min(width, height) * 0.1;
+  const thumbnailSize = Math.min(width, height) * 0.4;
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { width, height }]}>
       <View style={styles.playList}>
         <View style={[styles.layer, styles.layerOne]}>
           <View style={styles.layerContent}>
@@ -12,7 +15,10 @@ const PlayList = () => {
                 source={{
                   uri: "https://i.scdn.co/image/ab67616d0000b2736408287b53a65219c3e3e173",
                 }}
-                style={styles.thumbnail}
+                style={[
+                  styles.thumbnail,
+                  { width: thumbnailSize, height: thumbnailSize },
+                ]}
               />
               <View>
                 <Text style={styles.songText}>Sóng gió</Text>
@@ -24,31 +30,47 @@ const PlayList = () => {
           </View>
         </View>
 
-        <View style={[styles.layer, styles.layerTwo]}>
+        <View
+          style={[
+            styles.layer,
+            styles.layerTwo,
+            { top: layerOffset, left: layerOffset },
+          ]}
+        >
           <View style={styles.layerContent}>
             <View>
               <Image
                 source={{
                   uri: "https://i.scdn.co/image/ab67616d0000b2736408287b53a65219c3e3e173",
                 }}
-                style={styles.thumbnail}
+                style={[
+                  styles.thumbnail,
+                  { width: thumbnailSize, height: thumbnailSize },
+                ]}
               />
-              <View>
-                <Text style={styles.songText}></Text>
-              </View>
+              <Text style={styles.songText}></Text>
             </View>
             <View style={styles.relatedTrack} />
           </View>
         </View>
 
-        <View style={[styles.layer, styles.layerThree]}>
+        <View
+          style={[
+            styles.layer,
+            styles.layerThree,
+            { top: layerOffset * 2, left: layerOffset * 2 },
+          ]}
+        >
           <View style={styles.layerContent}>
             <View>
               <Image
                 source={{
                   uri: "https://i.scdn.co/image/ab67616d0000b2736408287b53a65219c3e3e173",
                 }}
-                style={styles.thumbnail}
+                style={[
+                  styles.thumbnail,
+                  { width: thumbnailSize, height: thumbnailSize },
+                ]}
               />
               <View>
                 <Text style={styles.songText}></Text>
@@ -66,8 +88,6 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     alignItems: "center",
-    width: 150,
-    height: 150,
     position: "relative",
   },
   playList: {
@@ -103,7 +123,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     marginHorizontal: -25,
     overflow: "hidden",
-    fontSize: 12,
+    fontSize: 8,
   },
   layer: {
     shadowColor: "#000",
@@ -116,7 +136,7 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: "#000",
     padding: 5,
-    backgroundColor: "#736B7A",
+    backgroundColor: "#736B7A", // nền nè
     position: "absolute",
     aspectRatio: 1,
   },
@@ -127,17 +147,22 @@ const styles = StyleSheet.create({
   },
   layerTwo: {
     zIndex: 2,
-    top: 16,
-    left: 18,
   },
   layerThree: {
     zIndex: 1,
-    top: 28,
-    left: 28,
   },
   thumbnail: {
-    width: 65,
-    height: 65,
+    resizeMode: "cover",
+  },
+  playListText: {
+    color: "#fff",
+    fontSize: 16,
+    textAlign: "center",
+  },
+  playListAuthorName: {
+    color: "#fff",
+    fontSize: 12,
+    textAlign: "center",
   },
 });
 
