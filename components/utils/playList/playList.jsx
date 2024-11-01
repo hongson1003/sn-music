@@ -1,8 +1,8 @@
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 
-const PlayList = ({ width = 150, height = 150 }) => {
-  const layerOffset = Math.min(width, height) * 0.1;
+const PlayList = ({ width = 150, height = 150, showSongText = true }) => {
+  const layerOffset = Math.min(width, height) * 0.09;
   const thumbnailSize = Math.min(width, height) * 0.4;
 
   return (
@@ -13,20 +13,31 @@ const PlayList = ({ width = 150, height = 150 }) => {
             <View style={styles.layerBody}>
               <Image
                 source={{
-                  uri: "https://i.scdn.co/image/ab67616d0000b2736408287b53a65219c3e3e173",
+                  uri: "https://cdn.tuoitre.vn/zoom/480_300/2019/6/19/jack-1560931851558668237008-crop-1560932012161893602955.jpg",
                 }}
                 style={[
                   styles.thumbnail,
                   { width: thumbnailSize, height: thumbnailSize },
                 ]}
               />
-              <View>
-                <Text style={styles.songText}>Sóng gió</Text>
+              <View style={styles.bgSong}>
+                <Text
+                  style={[
+                    styles.songText,
+                    {
+                      fontSize: 8,
+                    },
+                  ]}
+                >
+                  Sóng gió
+                </Text>
               </View>
             </View>
-            <View style={styles.relatedTrack}>
-              <Text style={styles.relatedTrackTitle}>Jack - J97</Text>
-            </View>
+            {showSongText && (
+              <View style={styles.relatedTrack}>
+                <Text style={styles.relatedTrackTitle}>Jack - J97</Text>
+              </View>
+            )}
           </View>
         </View>
 
@@ -40,9 +51,7 @@ const PlayList = ({ width = 150, height = 150 }) => {
           <View style={styles.layerContent}>
             <View>
               <Image
-                source={{
-                  uri: "https://i.scdn.co/image/ab67616d0000b2736408287b53a65219c3e3e173",
-                }}
+                source={null}
                 style={[
                   styles.thumbnail,
                   { width: thumbnailSize, height: thumbnailSize },
@@ -58,15 +67,13 @@ const PlayList = ({ width = 150, height = 150 }) => {
           style={[
             styles.layer,
             styles.layerThree,
-            { top: layerOffset * 2, left: layerOffset * 2 },
+            { top: layerOffset * 1.8, left: layerOffset * 1.8 },
           ]}
         >
           <View style={styles.layerContent}>
             <View>
               <Image
-                source={{
-                  uri: "https://i.scdn.co/image/ab67616d0000b2736408287b53a65219c3e3e173",
-                }}
+                source={null}
                 style={[
                   styles.thumbnail,
                   { width: thumbnailSize, height: thumbnailSize },
@@ -89,6 +96,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     position: "relative",
+    marginLeft: 10,
+    transform: "scale(1.12)",
   },
   playList: {
     width: "100%",
@@ -96,34 +105,49 @@ const styles = StyleSheet.create({
     position: "absolute",
     justifyContent: "center",
     alignItems: "center",
+    transform: "scale(1.12)",
   },
   songText: {
     color: "#fff",
     fontSize: 12,
     textAlign: "center",
     marginBottom: 5,
+    fontWeight: "bold",
   },
   layerContent: {
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
-    paddingTop: 5,
-    paddingHorizontal: 5,
+    paddingTop: 8,
+    paddingHorizontal: 2,
   },
   layerBody: {
     justifyContent: "center",
     alignItems: "center",
     gap: 5,
   },
+  bgSong: {
+    backgroundColor: "#333",
+    width: "100%",
+    borderRadius: 2,
+    paddingHorizontal: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   relatedTrack: {
-    paddingLeft: 10,
+    paddingLeft: 8,
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
   },
   relatedTrackTitle: {
     transform: [{ rotate: "90deg" }],
-    color: "#fff",
+    color: "#333",
     marginHorizontal: -25,
     overflow: "hidden",
     fontSize: 8,
+    fontWeight: "bold",
+    fontFamily: "Arial",
   },
   layer: {
     shadowColor: "#000",
@@ -136,9 +160,8 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: "#000",
     padding: 5,
-    backgroundColor: "#736B7A", // nền nè
+    backgroundColor: "#685863", // nền nè
     position: "absolute",
-    aspectRatio: 1,
   },
   layerOne: {
     zIndex: 3,
@@ -153,16 +176,6 @@ const styles = StyleSheet.create({
   },
   thumbnail: {
     resizeMode: "cover",
-  },
-  playListText: {
-    color: "#fff",
-    fontSize: 16,
-    textAlign: "center",
-  },
-  playListAuthorName: {
-    color: "#fff",
-    fontSize: 12,
-    textAlign: "center",
   },
 });
 
