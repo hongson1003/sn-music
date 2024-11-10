@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import { SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View, Button } from "react-native";
+import { Picker } from "@react-native-picker/picker";
 import { AccountEditHeader } from "../../components/account/accountHeader";
 
 export default function AccountEditScreen() {
   const [name, setName] = useState("Lưu Trung Nghĩa");
   const [email, setEmail] = useState("luutrungnghia1901@gmail.com");
   const [address, setAddress] = useState("61/6 Nguyễn Văn Bảo phường 4 Gò Vấp Tp Hồ Chí Minh");
+  const [gender, setGender] = useState("male"); // Trạng thái giới tính
 
   const handleSave = () => {
     console.log("Thông tin người dùng đã được cập nhật");
-    console.log({ name, email, address });
+    console.log({ name, email, address, gender });
   };
 
   return (
@@ -36,8 +38,20 @@ export default function AccountEditScreen() {
             value={address}
             onChangeText={setAddress}
             multiline={true}
-            numberOfLines={4} // Chiều cao ban đầu của ô
+            numberOfLines={4}
           />
+
+          <Text style={styles.label}>Giới tính</Text>
+          <Picker
+            selectedValue={gender}
+            onValueChange={(itemValue) => setGender(itemValue)}
+            style={styles.picker}
+            dropdownIconColor="#fff" 
+          >
+            <Picker.Item label="Nam" value="male" />
+            <Picker.Item label="Nữ" value="female" />
+            <Picker.Item label="Khác" value="other" />
+          </Picker>
 
           <Button title="Lưu thay đổi" onPress={handleSave} />
         </View>
@@ -74,7 +88,18 @@ const styles = StyleSheet.create({
     backgroundColor: "#333",
   },
   addressInput: {
-    height: 80, // Chiều cao ban đầu
-    textAlignVertical: "top", // Để văn bản bắt đầu từ đầu ô
+    height: 80,
+    textAlignVertical: "top",
+  },
+  label: {
+    color: "#fff",
+    fontSize: 18,
+    marginBottom: 5,
+  },
+  picker: {
+    color: "#fff", 
+    backgroundColor: "#333",
+    borderRadius: 5,
+    marginBottom: 15,
   },
 });
