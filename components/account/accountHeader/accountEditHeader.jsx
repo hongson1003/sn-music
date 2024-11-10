@@ -1,9 +1,9 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet} from "react-native";
 import { Avatar } from "../avatar";
 import Icon from "react-native-vector-icons/FontAwesome"; 
 import { useNavigation } from "@react-navigation/native";
-const AccountHeader = ({ src, followers = "1.2K Followers" }) => {
+const AccountEditHeader = ({ src, followers = "1.2K Followers" }) => {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
@@ -13,19 +13,6 @@ const AccountHeader = ({ src, followers = "1.2K Followers" }) => {
           <Text style={styles.nameText}>Lưu Trung Nghĩa</Text>
           <Text style={styles.followersText}>{followers}</Text>
         </View>
-      </View>
-      
-      <View style={styles.iconContainer}>
-        <TouchableOpacity
-          style={styles.iconButton}
-          onPress={() => navigation.navigate('AccountEditScreen')}
-        >
-          <Icon name="edit" size={24} color="white" /> 
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.iconButton}>
-          <Icon name="stop" size={24} color="white" /> 
-        </TouchableOpacity>
       </View>
     </View>
   );
@@ -52,15 +39,6 @@ const styles = StyleSheet.create({
     color: "gray",
     fontSize: 14,
   },
-  iconContainer: {
-    flexDirection: "row",
-    marginTop: 20,
-    justifyContent: "space-between",
-    width: "50%", 
-  },
-  iconButton: {
-    alignItems: "center",
-  },
 });
 
-export default AccountHeader;
+export default AccountEditHeader;
