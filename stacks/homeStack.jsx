@@ -16,7 +16,6 @@ function HomeStack() {
           headerTitle: () => <HomeHeader />,
           headerStyle: {
             backgroundColor: "#000",
-            color: "#fff",
           },
         }}
       />

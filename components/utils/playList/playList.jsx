@@ -147,7 +147,6 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     fontSize: 8,
     fontWeight: "bold",
-    fontFamily: "Arial",
   },
   layer: {
     shadowColor: "#000",

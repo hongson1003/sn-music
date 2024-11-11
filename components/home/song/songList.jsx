@@ -15,7 +15,7 @@ const SongList = ({ data = [] }) => {
           </View>
         </View>
       )}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(_item, index) => index}
       horizontal
       ItemSeparatorComponent={() => <View style={{ width: 14 }} />}
     />

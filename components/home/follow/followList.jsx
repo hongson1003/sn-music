@@ -9,7 +9,7 @@ const FollowList = ({ data = [] }) => {
       renderItem={({ item }) => {
         return <FollowItem />;
       }}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item, index) => index}
       ItemSeparatorComponent={() => <View style={{ width: 14 }} />}
       horizontal
     />
