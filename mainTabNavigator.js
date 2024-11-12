@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 import Icon from "react-native-vector-icons/Ionicons";
-import { AccountStack, FeedStack, HomeStack } from "./stacks";
+import { AccountStack, FeedStack, HomeStack, LibStack } from "./stacks";
 
 const Tab = createBottomTabNavigator();
 
@@ -31,24 +31,22 @@ export default function MainTabNavigator() {
         tabBarInactiveTintColor: "gray",
       })}
     >
-      <Tab.Screen
-        name="Home"
-        component={HomeStack}
-        options={{
-          headerShown: false,
-          tabBarActiveTintColor: "tomato",
-          tabBarInactiveTintColor: "gray",
-          tabBarStyle: { backgroundColor: "#000" },
-          headerStyle: { backgroundColor: "#000" },
-          headerTintColor: "#fff",
-          tabBarActiveTintColor: "#fff",
-          tabBarInactiveTintColor: "gray",
-        }}
-      />
-      <Tab.Screen name="Feed" component={FeedStack} />
-      {/* <Tab.Screen name="Search" component={SearchScreen} />
-        <Tab.Screen name="Library" component={LibraryScreen} /> */}
-      <Tab.Screen name="Account" component={AccountStack} />
+      <Tab.Screen name="Home" component={HomeStack} options={options} />
+      <Tab.Screen name="Feed" component={FeedStack} options={options} />
+      {/* <Tab.Screen name="Search" component={SearchScreen} /> */}
+      <Tab.Screen name="Library" component={LibStack} options={options} />
+      <Tab.Screen name="Account" component={AccountStack} options={options} />
     </Tab.Navigator>
   );
 }
+
+const options = {
+  headerShown: false,
+  tabBarActiveTintColor: "tomato",
+  tabBarInactiveTintColor: "gray",
+  tabBarStyle: { backgroundColor: "#000" },
+  headerStyle: { backgroundColor: "#000" },
+  headerTintColor: "#fff",
+  tabBarActiveTintColor: "#fff",
+  tabBarInactiveTintColor: "gray",
+};

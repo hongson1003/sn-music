@@ -8,7 +8,10 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  ActivityIndicator, // Thêm loading indicator
 } from "react-native";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../redux/slices";
 import { axios } from "../../utils";
 
 export default function RegisterScreen({ navigation }) {
@@ -16,42 +19,32 @@ export default function RegisterScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // State để điều khiển hiển thị mật khẩu
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false); // State cho xác nhận mật khẩu
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false); // Thêm state cho loading
+  const dispatch = useDispatch();
 
   const handleRegister = async () => {
-    // Kiểm tra mật khẩu có khớp hay không
     if (password !== confirmPassword) {
       Alert.alert("Error", "Passwords do not match!");
       return;
     }
 
+    setLoading(true); // Bật loading khi bắt đầu đăng ký
     try {
-      // Gọi API đăng ký người dùng
       const response = await axios.post("/auth/register", {
         name,
         email,
         password,
       });
-      console.log("🚀 ~ handleRegister ~ response:", response);
 
-      if (response.status === 201) {
-        console.log("🚀 ~ handleRegister ~ response.data:", response.data);
-        const { accessToken, expiresIn, user } = response.data;
-        await AsyncStorage.setItem("accessToken", accessToken);
-        await AsyncStorage.setItem("user", JSON.stringify(user));
-
-        Alert.alert("Success", "Account created successfully!");
-
-        // Chuyển hướng tới màn hình đăng nhập
-        navigation.navigate("Home");
-      } else {
-        console.log("🚀 ~ handleRegister ~ response.data:", response.data);
-        Alert.alert("Error", "Failed to create account");
-      }
+      const { accessToken } = response;
+      await AsyncStorage.setItem("userToken", accessToken);
+      dispatch(setUser(response));
+      setLoading(false); // Tắt loading sau khi hoàn tất
     } catch (error) {
-      console.error("Error during registration:", error); // Log lỗi chi tiết
-
+      setLoading(false); // Tắt loading nếu có lỗi
+      console.error("Error during registration:", error);
       Alert.alert("Error", "Something went wrong!");
     }
   };
@@ -80,19 +73,19 @@ export default function RegisterScreen({ navigation }) {
         <TextInput
           style={styles.input}
           placeholder="Password"
-          secureTextEntry={!showPassword} // Kiểm tra trạng thái show password
+          secureTextEntry={!showPassword}
           value={password}
           onChangeText={setPassword}
         />
         <TouchableOpacity
-          onPress={() => setShowPassword(!showPassword)} // Toggle để hiển thị/ẩn mật khẩu
+          onPress={() => setShowPassword(!showPassword)}
           style={styles.eyeIcon}
         >
           <Image
             source={
               showPassword
-                ? require("./img/eye-open.png") // Hình ảnh mắt mở
-                : require("./img/eye-closed.png") // Hình ảnh mắt đóng
+                ? require("./img/eye-open.png")
+                : require("./img/eye-closed.png")
             }
             style={styles.eyeIconImage}
           />
@@ -104,12 +97,12 @@ export default function RegisterScreen({ navigation }) {
         <TextInput
           style={styles.input}
           placeholder="Confirm Password"
-          secureTextEntry={!showConfirmPassword} // Kiểm tra trạng thái show confirm password
+          secureTextEntry={!showConfirmPassword}
           value={confirmPassword}
           onChangeText={setConfirmPassword}
         />
         <TouchableOpacity
-          onPress={() => setShowConfirmPassword(!showConfirmPassword)} // Toggle để hiển thị/ẩn xác nhận mật khẩu
+          onPress={() => setShowConfirmPassword(!showConfirmPassword)}
           style={styles.eyeIcon}
         >
           <Image
@@ -123,10 +116,20 @@ export default function RegisterScreen({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.button} onPress={handleRegister}>
-        <Text style={styles.buttonText}>Register</Text>
+      {/* Nút đăng ký */}
+      <TouchableOpacity
+        style={styles.button}
+        onPress={handleRegister}
+        disabled={loading}
+      >
+        {loading ? (
+          <ActivityIndicator size="small" color="#fff" /> // Hiển thị loading khi đăng ký
+        ) : (
+          <Text style={styles.buttonText}>Register</Text>
+        )}
       </TouchableOpacity>
 
+      {/* Liên kết đến trang đăng nhập */}
       <TouchableOpacity onPress={() => navigation.navigate("Login")}>
         <Text style={styles.link}>Already have an account? Login</Text>
       </TouchableOpacity>

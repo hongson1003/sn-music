@@ -13,8 +13,10 @@ const instance = axios.create({
 
 // Interceptors cho request
 instance.interceptors.request.use(
-  (config) => {
-    const token = AsyncStorage.getItem("accessToken");
+  async (config) => {
+    // Đánh dấu interceptor này là async
+    const token = await AsyncStorage.getItem("userToken");
+    console.log("🚀 ~ token:", token);
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }
@@ -27,7 +29,7 @@ instance.interceptors.request.use(
 
 // Interceptors cho response
 instance.interceptors.response.use(
-  (response) => response,
+  (response) => response.data,
   (error) => {
     // Xử lý lỗi (ví dụ: token hết hạn, API trả về lỗi)
     if (error.response && error.response.status === 401) {
