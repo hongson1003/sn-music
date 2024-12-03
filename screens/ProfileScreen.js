@@ -2,10 +2,15 @@ import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
+import APP_ROUTES from "../constants/appRoutes";
 import { getImage } from "../utils/stringHandler";
 
 const ProfileScreen = ({ navigation }) => {
   const user = useSelector((state) => state.user?.user);
+
+  const handleOnClickEdit = () => {
+    navigation.navigate(APP_ROUTES.UPDATE_PROFILE);
+  };
 
   return (
     <View style={styles.container}>
@@ -23,7 +28,14 @@ const ProfileScreen = ({ navigation }) => {
             style={styles.avatar}
           />
           <View style={styles.userDetails}>
-            <Text style={styles.userName}>{user?.fullName}</Text>
+            {/* Tên người dùng với số dòng giới hạn */}
+            <Text
+              style={styles.userName}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              {user?.fullName}
+            </Text>
             <Text style={styles.followInfo}>
               {user?.followers} người theo dõi | {user?.following} đang theo dõi
             </Text>
@@ -31,7 +43,7 @@ const ProfileScreen = ({ navigation }) => {
         </View>
       </View>
 
-      <TouchableOpacity style={styles.editButton}>
+      <TouchableOpacity style={styles.editButton} onPress={handleOnClickEdit}>
         <Text style={styles.editButtonText}>Chỉnh sửa hồ sơ</Text>
       </TouchableOpacity>
     </View>
@@ -75,6 +87,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 20,
     fontWeight: "bold",
+    maxWidth: "70%", // Giới hạn chiều rộng để tránh tràn
   },
   followInfo: {
     color: "#bbb",
