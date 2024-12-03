@@ -1,44 +1,27 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import React from "react";
-import Icon from "react-native-vector-icons/Ionicons";
-import { HomeScreen } from "../screens";
+import DrawerContent from "../components/navigation/DrawerContent";
+import TabsNavigator from "./TabsNavigator";
+import APP_ROUTES from "../constants/appRoutes";
+import SettingsScreen from "../screens/SettingScreen";
 
-const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
 
 const AuthenticatedTabs = () => (
-  <Tab.Navigator
-    screenOptions={({ route }) => ({
-      tabBarIcon: ({ color, size }) => {
-        let iconName;
-
-        if (route.name === "Home") {
-          iconName = "home-outline";
-        } else {
-          iconName = "help-circle-outline";
-        }
-
-        return <Icon name={iconName} size={size} color={color} />;
+  <Drawer.Navigator
+    drawerContent={(props) => <DrawerContent {...props} />}
+    screenOptions={{
+      drawerType: "slide",
+      drawerStyle: {
+        width: "80%",
+        backgroundColor: "#1DB954",
       },
-      tabBarActiveTintColor: "#fff",
-      tabBarInactiveTintColor: "#888",
-      tabBarStyle: {
-        backgroundColor: "#121212",
-        borderTopWidth: 0,
-      },
-      tabBarLabelStyle: {
-        fontSize: 12,
-        fontWeight: "600",
-      },
-    })}
+      headerShown: false,
+    }}
   >
-    <Tab.Screen
-      name="Home"
-      component={HomeScreen}
-      options={{
-        headerShown: false,
-      }}
-    />
-  </Tab.Navigator>
+    <Drawer.Screen name="Tabs" component={TabsNavigator} />
+    <Drawer.Screen name={APP_ROUTES.SETTING} component={SettingsScreen} />
+  </Drawer.Navigator>
 );
 
 export default AuthenticatedTabs;
