@@ -17,6 +17,10 @@ const HomeWithDrawer = ({ navigation }) => {
 
   const options = ["Tất cả", "Nhạc", "Podcasts"];
 
+  if (!user) {
+    return null;
+  }
+
   return (
     <View style={styles.container}>
       {/* Avatar */}

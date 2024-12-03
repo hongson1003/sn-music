@@ -1,12 +1,12 @@
 import React from "react";
-import { View, Text, SafeAreaView, StyleSheet } from "react-native";
+import { SafeAreaView, StyleSheet, View } from "react-native";
 import { RegisterContainer } from "../containers/guest/register";
 
-const RegisterScreen = () => {
+const RegisterScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        <RegisterContainer />
+        <RegisterContainer navigation={navigation} />
       </View>
     </SafeAreaView>
   );

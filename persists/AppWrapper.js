@@ -13,14 +13,18 @@ const AppWrapper = ({ children }) => {
   useEffect(() => {
     const handleDetectToken = async () => {
       const token = await AsyncStorage.getItem(APP_KEYS.ACCESS_TOKEN);
-      try {
-        const res = await userService.getMe(token);
-        if (res) {
-          await dispatch(login(res));
+      if (token) {
+        try {
+          const res = await userService.getMe(token);
+          if (res) {
+            await dispatch(login(res));
+          }
+        } catch (error) {
+          console.log("🚀 ~ handleDetectToken ~ error:", error);
+        } finally {
+          setIsLoading(false);
         }
-      } catch (error) {
-        console.log("🚀 ~ handleDetectToken ~ error:", error);
-      } finally {
+      } else {
         setIsLoading(false);
       }
     };

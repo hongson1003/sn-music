@@ -10,6 +10,10 @@ const AuthButtons = () => {
     navigate.navigate(APP_ROUTES.REGISTER);
   };
 
+  const handleOnPressLogin = () => {
+    navigate.navigate(APP_ROUTES.LOGIN);
+  };
+
   return (
     <View style={styles.buttonContainer}>
       <TouchableOpacity
@@ -21,7 +25,7 @@ const AuthButtons = () => {
       <TouchableOpacity style={styles.googleButton}>
         <Text style={styles.buttonText}>Tiếp tục bằng Google</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.loginButton}>
+      <TouchableOpacity style={styles.loginButton} onPress={handleOnPressLogin}>
         <Text style={styles.buttonText}>Đăng nhập</Text>
       </TouchableOpacity>
     </View>

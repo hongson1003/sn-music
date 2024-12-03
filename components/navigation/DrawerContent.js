@@ -2,8 +2,8 @@ import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useSelector } from "react-redux";
-import { getImage } from "../../utils";
 import APP_ROUTES from "../../constants/appRoutes";
+import { getImage } from "../../utils";
 
 const DrawerContent = ({ navigation }) => {
   const user = useSelector((state) => state.user?.user);
@@ -20,13 +20,20 @@ const DrawerContent = ({ navigation }) => {
       screen: "ReleaseNotesScreen",
     },
     { name: "Gần đây", icon: "time-outline", screen: "RecentScreen" },
-    { name: "Cài đặt", icon: "settings-outline", screen: "SettingsScreen" },
     {
       name: "Quyền riêng tư",
       icon: "lock-closed-outline",
       screen: APP_ROUTES.SETTING,
     },
   ];
+
+  const handleClickViewProfile = () => {
+    navigation.navigate(APP_ROUTES.PROFILE);
+  };
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <View style={styles.drawerContainer}>
@@ -37,7 +44,10 @@ const DrawerContent = ({ navigation }) => {
         />
         <View style={styles.userDetails}>
           <Text style={styles.userName}>{user?.fullName}</Text>
-          <TouchableOpacity style={styles.profileButton}>
+          <TouchableOpacity
+            style={styles.profileButton}
+            onPress={handleClickViewProfile}
+          >
             <Text style={styles.profileText}>Xem hồ sơ</Text>
           </TouchableOpacity>
         </View>

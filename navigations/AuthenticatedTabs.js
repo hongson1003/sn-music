@@ -1,9 +1,10 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import React from "react";
 import DrawerContent from "../components/navigation/DrawerContent";
-import TabsNavigator from "./TabsNavigator";
 import APP_ROUTES from "../constants/appRoutes";
+import { ProfileScreen } from "../screens";
 import SettingsScreen from "../screens/SettingScreen";
+import TabsNavigator from "./TabsNavigator";
 
 const Drawer = createDrawerNavigator();
 
@@ -21,6 +22,7 @@ const AuthenticatedTabs = () => (
   >
     <Drawer.Screen name="Tabs" component={TabsNavigator} />
     <Drawer.Screen name={APP_ROUTES.SETTING} component={SettingsScreen} />
+    <Drawer.Screen name={APP_ROUTES.PROFILE} component={ProfileScreen} />
   </Drawer.Navigator>
 );
 

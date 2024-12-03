@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useState } from "react";
 import {
   SafeAreaView,
@@ -8,11 +9,10 @@ import {
   View,
 } from "react-native";
 import Toast from "react-native-toast-message";
-import { authService } from "../../../services";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import APP_KEYS from "../../../constants/appKeys";
 import { useDispatch } from "react-redux";
+import APP_KEYS from "../../../constants/appKeys";
 import { login } from "../../../redux/features/userSlice";
+import { authService } from "../../../services";
 
 const RegisterContainer = ({ navigation }) => {
   const [fullName, setFullName] = useState("");
