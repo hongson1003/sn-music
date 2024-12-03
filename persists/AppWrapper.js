@@ -13,7 +13,6 @@ const AppWrapper = ({ children }) => {
   useEffect(() => {
     const handleDetectToken = async () => {
       const token = await AsyncStorage.getItem(APP_KEYS.ACCESS_TOKEN);
-      console.log("🚀 ~ handleDetectToken ~ token:", token);
       try {
         const res = await userService.getMe(token);
         if (res) {
