@@ -1,34 +1,28 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React, { useState } from "react";
-import { GuestScreen, HomeScreen } from "../screens";
-const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import AppWrapper from "../persists/AppWrapper";
+import AuthenticatedTabs from "./AuthenticatedTabs";
+import GuestStack from "./GuestStack";
 
 const AppNavigation = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const userStore = useSelector((state) => state.user);
+  const [isLogged, setIsLogged] = useState(false);
 
-  const GuestStack = () => (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <Stack.Screen name="Guest" component={GuestScreen} />
-    </Stack.Navigator>
-  );
-
-  const AuthenticatedTabs = () => (
-    <Tab.Navigator>
-      <Tab.Screen name="Home" component={HomeScreen} />
-    </Tab.Navigator>
-  );
+  useEffect(() => {
+    if (userStore.user) {
+      setIsLogged(true);
+    } else {
+      setIsLogged(false);
+    }
+  }, [userStore]);
 
   return (
-    <NavigationContainer>
-      {isLoggedIn ? <AuthenticatedTabs /> : <GuestStack />}
-    </NavigationContainer>
+    <AppWrapper>
+      <NavigationContainer>
+        {isLogged ? <AuthenticatedTabs /> : <GuestStack />}
+      </NavigationContainer>
+    </AppWrapper>
   );
 };
 

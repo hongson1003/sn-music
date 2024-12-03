@@ -1,10 +1,21 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import APP_ROUTES from "../../../constants/appRoutes";
 
 const AuthButtons = () => {
+  const navigate = useNavigation();
+
+  const handleOnPressRegister = () => {
+    navigate.navigate(APP_ROUTES.REGISTER);
+  };
+
   return (
     <View style={styles.buttonContainer}>
-      <TouchableOpacity style={styles.signUpButton}>
+      <TouchableOpacity
+        style={styles.signUpButton}
+        onPress={handleOnPressRegister}
+      >
         <Text style={styles.buttonText}>Đăng ký miễn phí</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.googleButton}>
