@@ -1,9 +1,10 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import React from "react";
+import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { getImage } from "../../utils/stringHandler";
 
-const SongItem = ({ song }) => {
+const SongItem = ({ song, onPress }) => {
   return (
-    <View style={styles.songItem}>
+    <TouchableOpacity onPress={onPress} style={styles.songItem}>
       <Image
         source={{ uri: getImage(song.thumbnail) }}
         style={styles.thumbnail}
@@ -12,23 +13,15 @@ const SongItem = ({ song }) => {
       <View style={styles.songInfo}>
         <Text style={styles.title}>{song.title}</Text>
         <Text style={styles.artist}>
-          {song.artist.name || "Unknown Artist"}
+          {song.artist.fullName || "Unknown Artist"}
         </Text>
         <Text style={styles.duration}>{`${song.duration} seconds`}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#121212",
-    padding: 10,
-  },
-  list: {
-    marginTop: 10,
-  },
   songItem: {
     flexDirection: "row",
     alignItems: "center",
@@ -60,12 +53,6 @@ const styles = StyleSheet.create({
     color: "#777777",
     fontSize: 12,
     marginTop: 4,
-  },
-  emptyText: {
-    color: "#FFFFFF",
-    textAlign: "center",
-    marginTop: 20,
-    fontSize: 16,
   },
 });
 

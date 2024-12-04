@@ -19,3 +19,6 @@ export const getVideo = (fileId) => {
 export const getFile = (fileId) => {
   return `https://docs.google.com/viewer?srcid=${fileId}&pid=explorer&efh=false&a=v&chrome=false&embedded=true`;
 };
+
+export const getDriveDownloadUrl = (fileId) =>
+  `https://drive.google.com/uc?export=download&id=${fileId}`;
