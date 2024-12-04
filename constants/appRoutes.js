@@ -8,6 +8,7 @@ const APP_ROUTES = {
   SEARCH: "Search",
   UPDATE_PROFILE: "UpdateProfile",
   LIB: "Lib",
+  DETAIL_PLAYLIST: "DetailPlaylist",
 };
 
 export default APP_ROUTES;

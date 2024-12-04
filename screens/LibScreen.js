@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useIsFocused } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -7,16 +8,16 @@ import {
   Text,
   View,
 } from "react-native";
+import Ionicons from "react-native-vector-icons/Ionicons"; // Import icon thư viện
 import APP_KEYS from "../constants/appKeys";
 import { SongHomeItem } from "../containers/home";
-import { songService, userService } from "../services"; // Đảm bảo bạn import các service cần thiết
+import { songService } from "../services";
 
 const LibScreen = () => {
   const [likedSongs, setLikedSongs] = useState([]);
-  const [followers, setFollowers] = useState([]);
-  const [isLoading, setIsLoading] = useState(true); // Thêm trạng thái loading
+  const [isLoading, setIsLoading] = useState(true);
+  const isFocus = useIsFocused();
 
-  // Lấy bài hát đã thích
   const fetchLikedSongs = async () => {
     const token = await AsyncStorage.getItem(APP_KEYS.ACCESS_TOKEN);
 
@@ -26,29 +27,10 @@ const LibScreen = () => {
     }
 
     try {
-      const res = await songService.getLikedSongs(token); // Giả sử có một hàm để lấy bài hát yêu thích
-      setLikedSongs(res); // Lưu dữ liệu vào state
+      const res = await songService.getLikedSongs(token);
+      setLikedSongs(res);
     } catch (error) {
       console.log("🚀 ~ fetchLikedSongs ~ error:", error);
-    } finally {
-      setIsLoading(false); // Đặt lại trạng thái loading sau khi có dữ liệu
-    }
-  };
-
-  // Lấy người theo dõi
-  const fetchFollowers = async () => {
-    const token = await AsyncStorage.getItem(APP_KEYS.ACCESS_TOKEN);
-
-    if (!token) {
-      setIsLoading(false);
-      return;
-    }
-
-    try {
-      const res = await userService.getFollowers(token); // Giả sử có một hàm để lấy người theo dõi
-      setFollowers(res); // Lưu dữ liệu người theo dõi vào state
-    } catch (error) {
-      console.log("🚀 ~ fetchFollowers ~ error:", error);
     } finally {
       setIsLoading(false);
     }
@@ -56,16 +38,11 @@ const LibScreen = () => {
 
   useEffect(() => {
     fetchLikedSongs();
-    fetchFollowers(); // Gọi fetchFollowers để lấy dữ liệu người theo dõi
-  }, []);
+  }, [isFocus]);
 
-  // Hiển thị bài hát yêu thích
-  const renderLikedSong = ({ item }) => <SongHomeItem song={item} />;
-
-  // Hiển thị người theo dõi
-  const renderFollower = ({ item }) => (
-    <View style={styles.item}>
-      <Text style={styles.itemText}>{item.name}</Text>
+  const renderLikedSong = ({ item }) => (
+    <View style={styles.gridItem}>
+      <SongHomeItem song={item} />
     </View>
   );
 
@@ -80,19 +57,22 @@ const LibScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Bài nhạc đã thích</Text>
-      <FlatList
-        data={likedSongs}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={renderLikedSong}
-        style={styles.list}
-      />
-      <Text style={styles.title}>Người đã theo dõi</Text>
-      <FlatList
-        data={followers}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={renderFollower}
-        style={styles.list}
-      />
+      {likedSongs.length === 0 ? (
+        <View style={styles.emptyContainer}>
+          <Ionicons name="musical-notes-outline" size={100} color="#FFFFFF" />
+          <Text style={styles.emptyText}>Bạn chưa thích bài nhạc nào.</Text>
+        </View>
+      ) : (
+        <FlatList
+          data={likedSongs}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={renderLikedSong}
+          numColumns={2}
+          columnWrapperStyle={styles.row}
+          style={styles.list}
+          ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+        />
+      )}
     </View>
   );
 };
@@ -112,21 +92,32 @@ const styles = StyleSheet.create({
   list: {
     marginBottom: 20,
   },
-  item: {
+  row: {
+    justifyContent: "space-between",
+  },
+  gridItem: {
     backgroundColor: "#1E1E1E",
     borderRadius: 8,
-    marginBottom: 10,
     padding: 10,
-  },
-  itemText: {
-    color: "#FFFFFF",
-    fontSize: 16,
+    flex: 1,
+    marginHorizontal: 5,
   },
   loaderContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#121212",
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  emptyText: {
+    color: "#FFFFFF",
+    fontSize: 16,
+    textAlign: "center",
+    marginTop: 10,
   },
 });
 

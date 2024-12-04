@@ -7,3 +7,4 @@ export { default as LoginScreen } from "./LoginScreen";
 export { default as SearchScreen } from "./SearchScreen";
 export { default as UpdateProfileScreen } from "./UpdateProfileScreen";
 export { default as LibScreen } from "./LibScreen";
+export { default as PlaylistDetailScreen } from "./PlaylistDetailScreen";
