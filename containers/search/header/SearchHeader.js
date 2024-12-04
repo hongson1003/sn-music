@@ -1,6 +1,6 @@
 import { Text, View, TextInput, StyleSheet } from "react-native";
 
-const SearchHeader = () => {
+const SearchHeader = ({ onSearch }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tìm kiếm</Text>
@@ -8,6 +8,7 @@ const SearchHeader = () => {
         style={styles.input}
         placeholder="Nhập từ khóa tìm kiếm"
         placeholderTextColor="#aaa"
+        onChangeText={onSearch}
       />
     </View>
   );
