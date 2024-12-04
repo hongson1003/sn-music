@@ -14,30 +14,31 @@ import { setCurrentSong } from "../../../redux/features/songSlice";
 import { interactionService, songService } from "../../../services";
 import { SongHomeItem } from "../songHomeItem";
 
-const RecommendSongList = () => {
+const LikedSongList = () => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
 
-  const fetchRecommendSongList = async () => {
+  const fetchLikedSongs = async () => {
     const token = await AsyncStorage.getItem(APP_KEYS.ACCESS_TOKEN);
 
     if (!token) {
       setIsLoading(false);
       return;
     }
+
     try {
-      const res = await songService.getRecommendSongs(token);
+      const res = await songService.getLikedSongs(token);
       setData(res);
     } catch (error) {
-      console.log("🚀 ~ fetchRecommendSongList ~ error:", error);
+      console.log("🚀 ~ fetchLikedSongs ~ error:", error);
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchRecommendSongList();
+    fetchLikedSongs();
   }, []);
 
   const fetchUpdateInteraction = async (songId, duration) => {
@@ -72,18 +73,9 @@ const RecommendSongList = () => {
     );
   }
 
-  if (data.length === 0) {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.title}>Bài Hát Gợi Ý</Text>
-        <Text style={styles.emptyText}>Không có bài hát gợi ý nào</Text>
-      </View>
-    );
-  }
-
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Bài Hát Gợi Ý ({data.length} bài hát)</Text>
+      <Text style={styles.title}>Bài Hát Yêu Thích</Text>
       <FlatList
         data={data}
         keyExtractor={(item) => item.id.toString()}
@@ -92,7 +84,7 @@ const RecommendSongList = () => {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.list}
         ListEmptyComponent={
-          <Text style={styles.emptyText}>Không có bài hát mới nào</Text>
+          <Text style={styles.emptyText}>Không có Bài Hát Yêu Thích nào</Text>
         }
         ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
       />
@@ -131,4 +123,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RecommendSongList;
+export default LikedSongList;

@@ -38,7 +38,7 @@ const MusicPlayerBar = () => {
         currentSong.id,
         token
       );
-      console.log("🚀 ~ fetchInteraction ~ res:", res);
+      setIsLiked(res.liked);
     } catch (error) {
       console.log("🚀 ~ fetchInteraction ~ error:", error);
     }
@@ -50,13 +50,28 @@ const MusicPlayerBar = () => {
     }
   }, [currentSong]);
 
+  const handleOnLikePress = async () => {
+    const token = await AsyncStorage.getItem(APP_KEYS.ACCESS_TOKEN);
+
+    if (!token) return;
+
+    try {
+      await interactionService.likeInteraction(currentSong.id, token);
+      setIsLiked(!isLiked);
+
+      fetchInteraction();
+    } catch (error) {
+      console.log("🚀 ~ handleOnLikePress ~ error:", error);
+    }
+  };
+
   useEffect(() => {
     if (currentSong) {
       if (sound) {
-        sound.stopAsync(); // Dừng nhạc hiện tại
-        sound.unloadAsync(); // Giải phóng tài nguyên âm thanh
+        sound.stopAsync();
+        sound.unloadAsync();
       }
-      playSong(currentSong.url); // Phát bài mới
+      playSong(currentSong.url);
     }
 
     return () => {
@@ -182,6 +197,8 @@ const MusicPlayerBar = () => {
         progress={progress}
         handleTogglePlayPause={handleTogglePlayPause}
         isPlaying={isPlaying}
+        isLiked={isLiked}
+        handleLikePress={handleOnLikePress}
       />
     </View>
   );

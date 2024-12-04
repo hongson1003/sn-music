@@ -24,7 +24,7 @@ const debounce = (func, delay) => {
 };
 
 const SearchScreen = () => {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(" ");
   const [searchResults, setSearchResults] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -95,7 +95,7 @@ const SearchScreen = () => {
     <SafeAreaView style={styles.container}>
       <SearchHeader onSearch={handleOnSearch} />
 
-      {searchQuery === "" && searchResults.length === 0 ? (
+      {searchResults.length === 0 ? (
         <View style={styles.placeholder}>
           <Icon name="search" size={80} color="#FFFFFF" />
           <Text style={styles.placeholderText}>

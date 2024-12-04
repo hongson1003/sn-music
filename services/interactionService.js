@@ -37,6 +37,22 @@ const interactionService = {
 
     return await response.json();
   },
+  async likeInteraction(songId, accessToken) {
+    const response = await fetch(
+      `${APP_ENVS.EXPO_PUBLIC_API_URL}/interactions/like?songId=${songId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw await response.json();
+    }
+  },
 };
 
 export default interactionService;

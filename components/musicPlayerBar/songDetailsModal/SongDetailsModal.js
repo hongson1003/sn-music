@@ -19,7 +19,7 @@ const SongDetailsModal = ({
   handleTogglePlayPause,
   isPlaying,
   handleLikePress, // Hàm xử lý khi người dùng nhấn nút like
-  isLiked, // Trạng thái like của bài hát (true/false)
+  isLiked,
 }) => {
   return (
     <Modal

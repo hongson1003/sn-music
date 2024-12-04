@@ -39,6 +39,21 @@ const songService = {
 
     return response.json();
   },
+  getLikedSongs(accessToken) {
+    const url = `${APP_ENVS.EXPO_PUBLIC_API_URL}/interactions/get-liked-songs`;
+
+    return fetch(url, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }).then((response) => {
+      if (!response.ok) {
+        throw response.json();
+      }
+
+      return response.json();
+    });
+  },
 };
 
 export default songService;
