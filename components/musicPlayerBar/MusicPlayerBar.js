@@ -1,8 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useDispatch, useSelector } from "react-redux";
 import { Audio } from "expo-av";
+import React, { useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import { togglePlayPause } from "../../redux/features/songSlice";
 import { getImage } from "../../utils/stringHandler";
 
@@ -12,6 +19,7 @@ const MusicPlayerBar = () => {
 
   const [sound, setSound] = useState(null); // State để lưu sound hiện tại
   const [isBuffering, setIsBuffering] = useState(false); // Trạng thái buffering
+  const [isLoading, setIsLoading] = useState(true); // Trạng thái tải nhạc
 
   // Khi có sự thay đổi bài hát, dừng bài cũ và phát bài mới
   useEffect(() => {
@@ -33,6 +41,7 @@ const MusicPlayerBar = () => {
   }, [currentSong]); // Mỗi khi bài hát thay đổi, gọi useEffect
 
   const playSong = async (url) => {
+    setIsLoading(true); // Bắt đầu tải nhạc
     try {
       const { sound } = await Audio.Sound.createAsync(
         { uri: `https://drive.google.com/uc?export=download&id=${url}` }, // Sử dụng file ID để tạo URL âm thanh
@@ -40,8 +49,10 @@ const MusicPlayerBar = () => {
         onPlaybackStatusUpdate
       );
       setSound(sound); // Lưu đối tượng sound vào state
+      setIsLoading(false); // Tải xong, ẩn loading
     } catch (error) {
       console.log("Error loading or playing sound:", error);
+      setIsLoading(false); // Nếu lỗi, ẩn loading
     }
   };
 
@@ -77,16 +88,21 @@ const MusicPlayerBar = () => {
           {currentSong.artist?.fullName || "Unknown Artist"}
         </Text>
       </View>
-      <TouchableOpacity
-        onPress={handleTogglePlayPause}
-        style={styles.playPauseButton}
-      >
-        <Ionicons
-          name={isPlaying ? "pause" : "play"}
-          size={24}
-          color="#FFFFFF"
-        />
-      </TouchableOpacity>
+
+      {isLoading ? (
+        <ActivityIndicator size="small" color="#FFFFFF" style={styles.loader} />
+      ) : (
+        <TouchableOpacity
+          onPress={handleTogglePlayPause}
+          style={styles.playPauseButton}
+        >
+          <Ionicons
+            name={isPlaying ? "pause" : "play"}
+            size={24}
+            color="#FFFFFF"
+          />
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -123,6 +139,9 @@ const styles = StyleSheet.create({
   },
   playPauseButton: {
     padding: 10,
+  },
+  loader: {
+    marginLeft: 10,
   },
 });
 

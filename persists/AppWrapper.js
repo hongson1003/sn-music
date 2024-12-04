@@ -2,6 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { LoadingScreen } from "../components";
+import MusicPlayerBar from "../components/musicPlayerBar/MusicPlayerBar";
 import APP_KEYS from "../constants/appKeys";
 import { login } from "../redux/features/userSlice";
 import userService from "../services/userService";
@@ -36,7 +37,12 @@ const AppWrapper = ({ children }) => {
     return <LoadingScreen />;
   }
 
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <MusicPlayerBar />
+    </>
+  );
 };
 
 export default AppWrapper;

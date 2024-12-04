@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   currentSong: null,
-  isPlaying: false, // Trạng thái phát
+  isPlaying: false,
 };
 
 const songSlice = createSlice({

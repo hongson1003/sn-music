@@ -86,10 +86,7 @@ const SearchScreen = () => {
         data={searchResults}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <SongItem
-            song={item}
-            onPress={() => handlePlaySong(item)} // Xử lý nhấn bài hát
-          />
+          <SongItem song={item} onPress={() => handlePlaySong(item)} />
         )}
         contentContainerStyle={styles.list}
         ListEmptyComponent={
@@ -118,6 +115,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#121212",
     padding: 10,
+    paddingBottom: 70,
   },
   list: {
     marginTop: 10,
