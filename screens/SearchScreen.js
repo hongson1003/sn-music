@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -24,7 +24,7 @@ const debounce = (func, delay) => {
 };
 
 const SearchScreen = () => {
-  const [searchQuery, setSearchQuery] = useState(" ");
+  const [searchQuery, setSearchQuery] = useState(""); // Khởi tạo là chuỗi rỗng
   const [searchResults, setSearchResults] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -66,10 +66,10 @@ const SearchScreen = () => {
   // Xử lý tìm kiếm
   const handleOnSearch = (query) => {
     setSearchQuery(query);
-    setSearchResults([]);
-    setCurrentPage(0);
-    setHasMore(true);
-    debouncedFetchSearchResults(query);
+    setSearchResults([]); // Reset kết quả tìm kiếm
+    setCurrentPage(0); // Reset trang
+    setHasMore(true); // Reset trạng thái phân trang
+    debouncedFetchSearchResults(query); // Gọi API tìm kiếm
   };
 
   // Tải thêm dữ liệu khi cuộn
@@ -90,6 +90,11 @@ const SearchScreen = () => {
   const handlePlaySong = (song) => {
     dispatch(setCurrentSong(song));
   };
+
+  useEffect(() => {
+    // Gọi tìm kiếm khi lần đầu vào trang với query rỗng
+    handleOnSearch("");
+  }, []); // useEffect sẽ chỉ chạy một lần khi component mount
 
   return (
     <SafeAreaView style={styles.container}>
