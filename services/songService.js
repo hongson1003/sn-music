@@ -13,6 +13,17 @@ const songService = {
 
     return response.json();
   },
+  getNewsSongs: async (limit = 10) => {
+    const url = `${APP_ENVS.EXPO_PUBLIC_API_URL}/songs/newest?limit=${limit}`;
+
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw response.json();
+    }
+
+    return response.json();
+  },
 };
 
 export default songService;

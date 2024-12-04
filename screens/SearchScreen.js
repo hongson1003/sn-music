@@ -7,8 +7,8 @@ import {
   Text,
   View,
 } from "react-native";
-import { useDispatch } from "react-redux";
 import Icon from "react-native-vector-icons/MaterialIcons"; // Hoặc bất kỳ thư viện icon nào bạn sử dụng
+import { useDispatch } from "react-redux";
 import SongItem from "../components/songItem/SongItem";
 import { SearchHeader } from "../containers/search";
 import { setCurrentSong } from "../redux/features/songSlice";

@@ -1,11 +1,11 @@
-// src/screens/HomeScreen.js
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { NewSongList } from "../containers/home";
 
 const HomeScreen = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Welcome to the Home Screen!</Text>
+      <NewSongList />
     </View>
   );
 };
@@ -14,8 +14,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#121212",
-    justifyContent: "center",
-    alignItems: "center",
   },
   text: {
     color: "#ffffff",
