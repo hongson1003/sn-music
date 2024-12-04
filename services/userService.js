@@ -32,6 +32,23 @@ const userService = {
 
     throw await response.json();
   },
+  async getTopFollowers() {
+    const response = await fetch(
+      `${APP_ENVS.EXPO_PUBLIC_API_URL}/users/top-followers`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (response.ok) {
+      return await response.json();
+    }
+
+    throw await response.json();
+  },
 };
 
 export default userService;

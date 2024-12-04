@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -9,58 +8,29 @@ import {
   View,
 } from "react-native";
 import { useDispatch } from "react-redux";
-import APP_KEYS from "../../../constants/appKeys";
+import { FollowerItem } from "../../../components/followerItem";
 import { setCurrentSong } from "../../../redux/features/songSlice";
-import { interactionService, songService } from "../../../services";
-import { SongHomeItem } from "../songHomeItem";
-import { useIsFocused } from "@react-navigation/native";
+import userService from "../../../services/userService";
 
-const LikedSongList = () => {
+const TopFollowerList = () => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
-  const isFocused = useIsFocused();
 
-  useEffect(() => {
-    if (isFocused) {
-      fetchLikedSongs();
-    }
-  }, [isFocused]);
-
-  const fetchLikedSongs = async () => {
-    const token = await AsyncStorage.getItem(APP_KEYS.ACCESS_TOKEN);
-
-    if (!token) {
-      setIsLoading(false);
-      return;
-    }
-
+  const fetchFollowers = async () => {
     try {
-      const res = await songService.getLikedSongs(token);
+      const res = await userService.getTopFollowers();
       setData(res);
     } catch (error) {
-      console.log("🚀 ~ fetchLikedSongs ~ error:", error);
+      console.log("🚀 ~ fetchFollowers ~ error:", error);
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchLikedSongs();
+    fetchFollowers();
   }, []);
-
-  const fetchUpdateInteraction = async (songId, duration) => {
-    const token = await AsyncStorage.getItem(APP_KEYS.ACCESS_TOKEN);
-
-    if (!token) {
-      return;
-    }
-    try {
-      await interactionService.saveInteraction(songId, duration, token);
-    } catch (error) {
-      console.log("🚀 ~ fetchUpdateInteraction ~ error:", error);
-    }
-  };
 
   const handleOnPress = (song) => {
     fetchUpdateInteraction(song.id, song.duration);
@@ -69,7 +39,7 @@ const LikedSongList = () => {
 
   const renderItem = ({ item }) => (
     <TouchableOpacity style={styles.item}>
-      <SongHomeItem song={item} onPress={() => handleOnPress(item)} />
+      <FollowerItem follower={item} />
     </TouchableOpacity>
   );
 
@@ -83,7 +53,7 @@ const LikedSongList = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Bài Hát Yêu Thích</Text>
+      <Text style={styles.title}>Top người dùng có follower cao nhất</Text>
       <FlatList
         data={data}
         keyExtractor={(item) => item.id.toString()}
@@ -92,7 +62,9 @@ const LikedSongList = () => {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.list}
         ListEmptyComponent={
-          <Text style={styles.emptyText}>Không có Bài Hát Yêu Thích nào</Text>
+          <Text style={styles.emptyText}>
+            Không có Top người dùng có follower cao nhất nào
+          </Text>
         }
         ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
       />
@@ -131,4 +103,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LikedSongList;
+export default TopFollowerList;

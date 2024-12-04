@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useIsFocused } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -18,6 +19,13 @@ const RecommendSongList = () => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (isFocused) {
+      fetchRecommendSongList();
+    }
+  }, [isFocused]);
 
   const fetchRecommendSongList = async () => {
     const token = await AsyncStorage.getItem(APP_KEYS.ACCESS_TOKEN);

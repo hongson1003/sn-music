@@ -1,18 +1,30 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
+import { useSelector } from "react-redux";
 import {
   LikedSongList,
   NewSongList,
   RecommendSongList,
 } from "../containers/home";
+import { TopFollowerList } from "../containers/home/topFollowerList";
 
 const HomeScreen = () => {
+  const { currentSong } = useSelector((state) => state.song);
+
   return (
-    <View style={styles.container}>
+    <ScrollView
+      style={[
+        styles.container,
+        {
+          marginBottom: currentSong ? 60 : 0,
+        },
+      ]}
+    >
       <NewSongList />
       <RecommendSongList />
       <LikedSongList />
-    </View>
+      <TopFollowerList />
+    </ScrollView>
   );
 };
 
@@ -20,11 +32,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#121212",
-  },
-  text: {
-    color: "#ffffff",
-    fontSize: 18,
-    fontWeight: "600",
   },
 });
 
