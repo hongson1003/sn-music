@@ -22,3 +22,13 @@ export const getFile = (fileId) => {
 
 export const getDriveDownloadUrl = (fileId) =>
   `https://drive.google.com/uc?export=download&id=${fileId}`;
+
+export const formatDuration = (duration) => {
+  if (duration >= 60) {
+    const minutes = Math.floor(duration / 60); // Lấy phần nguyên của phút
+    const seconds = duration % 60; // Lấy phần dư là giây
+    // Nếu số giây bằng 0, chỉ hiển thị phút mà không cần "0s"
+    return seconds === 0 ? `${minutes}m` : `${minutes}m ${seconds}s`;
+  }
+  return `${duration}s`; // Nếu dưới 60 giây thì hiển thị giây
+};

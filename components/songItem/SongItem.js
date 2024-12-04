@@ -1,6 +1,6 @@
 import React from "react";
-import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import { getImage } from "../../utils/stringHandler";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { formatDuration, getImage } from "../../utils/stringHandler";
 
 const SongItem = ({ song, onPress }) => {
   return (
@@ -15,7 +15,7 @@ const SongItem = ({ song, onPress }) => {
         <Text style={styles.artist}>
           {song.artist.fullName || "Unknown Artist"}
         </Text>
-        <Text style={styles.duration}>{`${song.duration} seconds`}</Text>
+        <Text style={styles.duration}>{formatDuration(song.duration)}</Text>
       </View>
     </TouchableOpacity>
   );
