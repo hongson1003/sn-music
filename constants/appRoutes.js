@@ -7,6 +7,7 @@ const APP_ROUTES = {
   LOGIN: "Login",
   SEARCH: "Search",
   UPDATE_PROFILE: "UpdateProfile",
+  LIB: "Lib",
 };
 
 export default APP_ROUTES;

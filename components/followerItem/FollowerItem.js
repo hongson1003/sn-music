@@ -1,13 +1,8 @@
 import React from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 import { getImage } from "../../utils/stringHandler";
 
-const FollowerItem = ({ follower, navigation }) => {
-  const handleProfilePress = () => {
-    // Điều hướng đến màn hình profile của người dùng
-    navigation.navigate("UserProfile", { userId: follower.id });
-  };
-
+const FollowerItem = ({ follower }) => {
   return (
     <View style={styles.container}>
       {/* Avatar */}
@@ -26,12 +21,7 @@ const FollowerItem = ({ follower, navigation }) => {
       </Text>
 
       {/* View Profile Button */}
-      <TouchableOpacity
-        style={styles.profileButton}
-        onPress={handleProfilePress}
-      >
-        <Text style={styles.profileButtonText}>Xem Chi Tiết</Text>
-      </TouchableOpacity>
+      <Text style={styles.profileButtonText}>Xem Chi Tiết</Text>
     </View>
   );
 };

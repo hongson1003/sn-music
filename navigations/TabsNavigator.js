@@ -3,7 +3,7 @@ import React from "react";
 import Icon from "react-native-vector-icons/Ionicons";
 import HomeWithDrawer from "../components/navigation/HomeWithDrawer";
 import APP_ROUTES from "../constants/appRoutes";
-import { SearchScreen } from "../screens";
+import { LibScreen, SearchScreen } from "../screens";
 
 const Tab = createBottomTabNavigator();
 
@@ -17,6 +17,8 @@ const TabsNavigator = () => (
           iconName = "home"; // Đổi biểu tượng cho trang Home
         } else if (route.name === "Search") {
           iconName = "search"; // Đổi biểu tượng cho trang Search
+        } else if (route.name === "Lib") {
+          iconName = "library"; // Đổi biểu tượng cho trang Lib
         } else {
           iconName = "help-circle"; // Biểu tượng mặc định
         }
@@ -47,6 +49,13 @@ const TabsNavigator = () => (
     <Tab.Screen
       name={APP_ROUTES.SEARCH}
       component={SearchScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <Tab.Screen
+      name={APP_ROUTES.LIB}
+      component={LibScreen}
       options={{
         headerShown: false,
       }}
