@@ -10,6 +10,7 @@ import {
 import Icon from "react-native-vector-icons/Ionicons";
 import { useDispatch } from "react-redux";
 import APP_KEYS from "../constants/appKeys";
+import { stopSong } from "../redux/features/songSlice";
 import { logout } from "../redux/features/userSlice";
 
 const settingItems = [
@@ -26,9 +27,11 @@ const settingItems = [
 
 const SettingScreen = ({ navigation }) => {
   const dispatch = useDispatch();
+
   const handleLogout = async () => {
     await AsyncStorage.removeItem(APP_KEYS.ACCESS_TOKEN);
     dispatch(logout());
+    dispatch(stopSong());
   };
 
   return (

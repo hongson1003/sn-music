@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -8,8 +9,9 @@ import {
   View,
 } from "react-native";
 import { useDispatch } from "react-redux";
+import APP_KEYS from "../../../constants/appKeys";
 import { setCurrentSong } from "../../../redux/features/songSlice";
-import { songService } from "../../../services";
+import { interactionService, songService } from "../../../services";
 import { SongHomeItem } from "../songHomeItem";
 
 const NewSongList = () => {
@@ -32,8 +34,21 @@ const NewSongList = () => {
     fetchNewSongs();
   }, []);
 
+  const fetchUpdateInteraction = async (songId, duration) => {
+    const token = await AsyncStorage.getItem(APP_KEYS.ACCESS_TOKEN);
+
+    if (!token) {
+      return;
+    }
+    try {
+      await interactionService.saveInteraction(songId, duration, token);
+    } catch (error) {
+      console.log("🚀 ~ fetchUpdateInteraction ~ error:", error);
+    }
+  };
+
   const handleOnPress = (song) => {
-    console.log("🚀 ~ handleOnPress ~ song:", song);
+    fetchUpdateInteraction(song.id, song.duration);
     dispatch(setCurrentSong(song));
   };
 
