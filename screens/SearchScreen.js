@@ -105,7 +105,7 @@ const SearchScreen = () => {
       ) : (
         <FlatList
           data={searchResults}
-          keyExtractor={(item) => item.id.toString()} // Đảm bảo id duy nhất
+          keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <SongItem song={item} onPress={() => handlePlaySong(item)} />
           )}
