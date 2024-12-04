@@ -18,6 +18,8 @@ const SongDetailsModal = ({
   progress,
   handleTogglePlayPause,
   isPlaying,
+  handleLikePress, // Hàm xử lý khi người dùng nhấn nút like
+  isLiked, // Trạng thái like của bài hát (true/false)
 }) => {
   return (
     <Modal
@@ -66,6 +68,17 @@ const SongDetailsModal = ({
                 name={isPlaying ? "pause" : "play"}
                 size={40}
                 color="#FFFFFF"
+              />
+            </TouchableOpacity>
+            {/* Nút Like */}
+            <TouchableOpacity
+              onPress={handleLikePress} // Khi nhấn like, sẽ gọi hàm này
+              style={styles.likeButton}
+            >
+              <Ionicons
+                name={isLiked ? "heart" : "heart-outline"} // Thay đổi icon khi like hay chưa
+                size={30}
+                color={isLiked ? "#FF6347" : "#FFFFFF"} // Đổi màu khi like
               />
             </TouchableOpacity>
           </View>
@@ -127,9 +140,14 @@ const styles = StyleSheet.create({
   },
   modalControls: {
     flexDirection: "row",
+    alignItems: "center",
   },
   modalPlayPauseButton: {
     padding: 15,
+  },
+  likeButton: {
+    padding: 15,
+    marginLeft: 20, // Thêm khoảng cách giữa nút like và nút play/pause
   },
 });
 
