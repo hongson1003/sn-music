@@ -67,7 +67,9 @@ const TabsNavigator = () => {
         component={PlaylistDetailScreen}
         options={{
           headerShown: false,
-          tabBarStyle: { display: "none" }, // Ẩn tab khi vào màn hình này
+          tabBarItemStyle: {
+            display: "none",
+          },
         }}
       />
     </Tab.Navigator>

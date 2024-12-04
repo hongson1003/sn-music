@@ -7,9 +7,12 @@ import {
   View,
 } from "react-native";
 import { PlaylistItem } from "../../../components/playlistItem";
+import APP_ROUTES from "../../../constants/appRoutes";
 import { playlistService } from "../../../services";
+import { useNavigation } from "@react-navigation/native";
 
 const PlaylistList = () => {
+  const navigation = useNavigation();
   const [playlists, setPlaylists] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -45,11 +48,17 @@ const PlaylistList = () => {
     );
   }
 
+  const handleOnPress = (playlist) => {
+    navigation.navigate(APP_ROUTES.DETAIL_PLAYLIST, { playlist: playlist });
+  };
+
   return (
     <FlatList
       data={playlists}
       keyExtractor={(item) => item.id.toString()}
-      renderItem={({ item }) => <PlaylistItem playlist={item} />}
+      renderItem={({ item }) => (
+        <PlaylistItem playlist={item} onPress={() => handleOnPress(item)} />
+      )}
       contentContainerStyle={styles.listContainer}
       ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
       ListEmptyComponent={

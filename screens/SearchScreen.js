@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -10,9 +11,10 @@ import {
 import Icon from "react-native-vector-icons/MaterialIcons"; // Hoặc bất kỳ thư viện icon nào bạn sử dụng
 import { useDispatch } from "react-redux";
 import SongItem from "../components/songItem/SongItem";
+import APP_KEYS from "../constants/appKeys";
 import { SearchHeader } from "../containers/search";
 import { setCurrentSong } from "../redux/features/songSlice";
-import { songService } from "../services";
+import { interactionService, songService } from "../services";
 
 // Hàm debounce để giảm tần suất gọi API
 const debounce = (func, delay) => {
@@ -86,8 +88,22 @@ const SearchScreen = () => {
     setIsRefreshing(false);
   };
 
+  const fetchUpdateInteraction = async (songId, duration) => {
+    const token = await AsyncStorage.getItem(APP_KEYS.ACCESS_TOKEN);
+
+    if (!token) {
+      return;
+    }
+    try {
+      await interactionService.saveInteraction(songId, duration, token);
+    } catch (error) {
+      console.log("🚀 ~ fetchUpdateInteraction ~ error:", error);
+    }
+  };
+
   // Xử lý phát nhạc
   const handlePlaySong = (song) => {
+    fetchUpdateInteraction(song.id, song.duration);
     dispatch(setCurrentSong(song));
   };
 
