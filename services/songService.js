@@ -24,6 +24,21 @@ const songService = {
 
     return response.json();
   },
+  getRecommendSongs: async (accessToken) => {
+    const url = `${APP_ENVS.EXPO_PUBLIC_API_URL}/recommendations`;
+
+    const response = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw response.json();
+    }
+
+    return response.json();
+  },
 };
 
 export default songService;

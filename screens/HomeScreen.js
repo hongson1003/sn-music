@@ -1,11 +1,12 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { NewSongList } from "../containers/home";
+import { NewSongList, RecommendSongList } from "../containers/home";
 
 const HomeScreen = () => {
   return (
     <View style={styles.container}>
       <NewSongList />
+      <RecommendSongList />
     </View>
   );
 };

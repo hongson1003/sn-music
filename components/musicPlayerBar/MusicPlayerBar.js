@@ -1,4 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Audio } from "expo-av";
 import React, { useEffect, useState } from "react";
 import {
@@ -10,7 +11,9 @@ import {
   View,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import APP_KEYS from "../../constants/appKeys";
 import { togglePlayPause } from "../../redux/features/songSlice";
+import { interactionService } from "../../services";
 import { getDriveDownloadUrl, getImage } from "../../utils/stringHandler";
 import { SongDetailsModal } from "./songDetailsModal";
 
@@ -23,6 +26,29 @@ const MusicPlayerBar = () => {
   const [isModalVisible, setIsModalVisible] = useState(false); // Trạng thái modal
   const [progress, setProgress] = useState(0); // Thanh progress
   const rotation = useState(new Animated.Value(0))[0]; // Animated giá trị xoay
+  const [isLiked, setIsLiked] = useState(false); // Trạng thái like
+
+  const fetchInteraction = async () => {
+    const token = await AsyncStorage.getItem(APP_KEYS.ACCESS_TOKEN);
+
+    if (!token) return;
+
+    try {
+      const res = await interactionService.getInteraction(
+        currentSong.id,
+        token
+      );
+      console.log("🚀 ~ fetchInteraction ~ res:", res);
+    } catch (error) {
+      console.log("🚀 ~ fetchInteraction ~ error:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (currentSong) {
+      fetchInteraction();
+    }
+  }, [currentSong]);
 
   useEffect(() => {
     if (currentSong) {

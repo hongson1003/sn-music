@@ -13,26 +13,27 @@ const TabsNavigator = () => (
       tabBarIcon: ({ color, size }) => {
         let iconName;
 
-        // Điều chỉnh biểu tượng cho từng tab
         if (route.name === "Home") {
-          iconName = "home-outline"; // Biểu tượng cho trang Home
+          iconName = "home"; // Đổi biểu tượng cho trang Home
         } else if (route.name === "Search") {
-          iconName = "search-outline"; // Biểu tượng cho trang Search
+          iconName = "search"; // Đổi biểu tượng cho trang Search
         } else {
-          iconName = "help-circle-outline"; // Biểu tượng mặc định
+          iconName = "help-circle"; // Biểu tượng mặc định
         }
 
         return <Icon name={iconName} size={size} color={color} />;
       },
-      tabBarActiveTintColor: "#fff",
-      tabBarInactiveTintColor: "#888",
+      tabBarActiveTintColor: "#ffffff",
+      tabBarInactiveTintColor: "#888888",
       tabBarStyle: {
         backgroundColor: "#121212",
         borderTopWidth: 0,
+        paddingVertical: 10, // Thêm padding dọc cho tab
       },
       tabBarLabelStyle: {
         fontSize: 12,
         fontWeight: "600",
+        paddingBottom: 5, // Thêm padding dưới nhãn
       },
     })}
   >

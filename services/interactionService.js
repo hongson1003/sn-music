@@ -21,6 +21,22 @@ const interactionService = {
       throw await response.json();
     }
   },
+  async getInteraction(songId, accessToken) {
+    const response = await fetch(
+      `${APP_ENVS.EXPO_PUBLIC_API_URL}/interactions/get-by-song-id?songId=${songId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw await response.json();
+    }
+
+    return await response.json();
+  },
 };
 
 export default interactionService;
