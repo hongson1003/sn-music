@@ -1,21 +1,36 @@
 import React from "react";
-import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { getImage } from "../../utils/stringHandler";
 
-const FollowerItem = ({ follower, onFollowPress }) => {
+const FollowerItem = ({ follower, navigation }) => {
+  const handleProfilePress = () => {
+    // Điều hướng đến màn hình profile của người dùng
+    navigation.navigate("UserProfile", { userId: follower.id });
+  };
+
   return (
     <View style={styles.container}>
       {/* Avatar */}
-      <Image source={{ uri: follower.avatar }} style={styles.avatar} />
+      <Image
+        source={{ uri: getImage(follower.avatar) }}
+        style={styles.avatar}
+      />
 
       {/* Name */}
-      <Text style={styles.name}>{follower.fullName}</Text>
-
-      {/* Follow Button */}
-      <TouchableOpacity
-        style={styles.followButton}
-        onPress={() => onFollowPress(follower.id)}
+      <Text
+        style={styles.name}
+        numberOfLines={1} // Giới hạn chỉ hiển thị 1 dòng
+        ellipsizeMode="tail" // Cắt bớt phần thừa nếu dài
       >
-        <Text style={styles.followButtonText}>Follow</Text>
+        {follower.fullName}
+      </Text>
+
+      {/* View Profile Button */}
+      <TouchableOpacity
+        style={styles.profileButton}
+        onPress={handleProfilePress}
+      >
+        <Text style={styles.profileButtonText}>Xem Chi Tiết</Text>
       </TouchableOpacity>
     </View>
   );
@@ -42,15 +57,16 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginBottom: 10,
   },
-  followButton: {
+  profileButton: {
     backgroundColor: "#FF5C5C",
     paddingVertical: 5,
     paddingHorizontal: 10,
     borderRadius: 5,
   },
-  followButtonText: {
+  profileButtonText: {
     color: "#FFFFFF",
     fontWeight: "bold",
+    textAlign: "center",
   },
 });
 

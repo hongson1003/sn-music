@@ -32,11 +32,6 @@ const TopFollowerList = () => {
     fetchFollowers();
   }, []);
 
-  const handleOnPress = (song) => {
-    fetchUpdateInteraction(song.id, song.duration);
-    dispatch(setCurrentSong(song));
-  };
-
   const renderItem = ({ item }) => (
     <TouchableOpacity style={styles.item}>
       <FollowerItem follower={item} />
